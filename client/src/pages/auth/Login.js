@@ -4,40 +4,42 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../style/authStyle.css";
+import { useAuth } from "../../context/auth";
 
-const Register = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [address, setAddress] = useState("");
-    const navigate = useNavigate();
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API}/api/v1/auth/register`,
+        `${process.env.REACT_APP_API}/api/v1/auth/login`,
         {
-          name,
           email,
           password,
-          phone,
-          address,
         }
       );
 
       console.log(res);
-      console.log(`${process.env.REACT_APP_API}/api/v1/auth/register`);
+      console.log(`${process.env.REACT_APP_API}/api/v1/auth/login`);
 
       if (res && res.data.success) {
-        toast.success("User Registered Successfully", {
+        toast.success("User LogIn Successfully", {
           duration: 8000,
         });
-        navigate("/login");
+        setAuth({
+          ...auth,
+          user: res.data.user,
+          token: res.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data));
+        navigate("/");
       } else {
         toast.error(res.data.message, {
-          duration: 8000,
+          duration: 4000,
         });
       }
     } catch (error) {
@@ -51,17 +53,6 @@ const Register = () => {
       <div className="form-container">
         <h1>Register Page</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Name"
-              required
-            />
-          </div>
           <div className="mb-3">
             <input
               type="email"
@@ -84,30 +75,9 @@ const Register = () => {
               required
             />
           </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Mobile No."
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Address"
-              required
-            />
-          </div>
+
           <button type="submit" className="btn btn-primary">
-            Submit
+            Login
           </button>
         </form>
       </div>
@@ -115,4 +85,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

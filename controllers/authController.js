@@ -8,7 +8,7 @@ export const registerController = async (req, res) => {
 
     ///validation
     if (!name || !email || !password || !address || !phone) {
-      return res.status(400).send({ error: "All fields are required" });
+      return res.send({ message: "All fields are required" });
     }
 
     ///checking existing user in db
@@ -16,12 +16,12 @@ export const registerController = async (req, res) => {
 
     if (existingUser) {
       return res.status(200).send({
-        success: true,
+        success: false,
         message: "Already Registered please Login",
       });
     }
 
-    ///registerUser
+    ///register User
     const hashedPassword = await hashPassword(password);
 
     ///save
@@ -31,9 +31,7 @@ export const registerController = async (req, res) => {
       address,
       email,
       password: hashedPassword,
-    });
-
-    await user.save();
+    }).save();
 
     res.status(201).send({
       success: true,
@@ -45,7 +43,7 @@ export const registerController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error in Registration",
-      error: error.message,
+      error,
     });
   }
 };
@@ -85,13 +83,9 @@ export const loginController = async (req, res) => {
 
     ///token creation
 
-    const token = await JWT.sign(
-      { _id: user.id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = await JWT.sign({ _id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.status(200).send({
       success: true,
