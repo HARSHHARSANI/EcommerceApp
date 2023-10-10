@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import "../../style/authStyle.css";
 
 const Register = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [address, setAddress] = useState("");
-    const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Register = () => {
           password,
           phone,
           address,
+          answer,
         }
       );
 
@@ -103,6 +105,17 @@ const Register = () => {
               className="form-control"
               id="exampleInputEmail1"
               placeholder="Address"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="What is your Favourite Sports"
               required
             />
           </div>
