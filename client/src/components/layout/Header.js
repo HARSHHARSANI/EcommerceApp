@@ -78,7 +78,12 @@ const Header = () => {
                       style={{ textDecoration: null }}
                     >
                       <li>
-                        <NavLink className="dropdown-item" to={"/dashboard"}>
+                        <NavLink
+                          className="dropdown-item"
+                          to={`/dashboard/${
+                            auth?.user?.role === 1 ? "admin" : "user"
+                          }`}
+                        >
                           Dashboard
                         </NavLink>
                       </li>
