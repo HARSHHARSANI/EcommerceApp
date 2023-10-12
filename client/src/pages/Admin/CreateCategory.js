@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout/layout";
 import AdminMenu from "../../components/layout/AdminMenu";
 
@@ -11,7 +11,7 @@ const CreateCategory = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9">
-            <h1>Create Category</h1>
+            <h1>Manage Category</h1>
           </div>
         </div>
       </div>

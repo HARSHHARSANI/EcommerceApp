@@ -6,6 +6,7 @@ import {
   getAllProductController,
   getSingleProductController,
   productPhotoController,
+  updateProductController,
 } from "../controllers/ProductController.js";
 import formidable from "express-formidable";
 const router = express.Router();
@@ -34,6 +35,15 @@ router.delete(
   requiredSignIn,
   isAdmin,
   deleteProductController
+);
+
+///update product
+router.put(
+  "/update-product/:pid",
+  requiredSignIn,
+  isAdmin,
+  formidable(),
+  updateProductController
 );
 
 export default router;
