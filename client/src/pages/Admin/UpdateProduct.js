@@ -66,7 +66,7 @@ const UpdateProduct = () => {
     getAllCategory();
   }, []);
 
-  const handleCreate = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const productData = new FormData();
@@ -76,8 +76,8 @@ const UpdateProduct = () => {
       productData.append("quantity", quantity);
       photo && productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = await axios.post(
-        "/api/v1/products/update-product",
+      const { data } = await axios.put(
+        `/api/v1/products/update-product/${id}`,
         productData
       );
       if (data?.success) {
@@ -85,6 +85,23 @@ const UpdateProduct = () => {
         navigate("/dashboard/admin/products");
       } else {
         toast.error(data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something Went Wrong");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt("Are You Sure want to Delete The product ?");
+      if (!answer) return;
+      else {
+        const { data } = await axios.delete(
+          `/api/v1/products/delete-product/${id}`
+        );
+        toast.success("Product Deleted Successfully");
+        navigate("/dashboard/admin/products");
       }
     } catch (error) {
       console.log(error);
@@ -205,8 +222,14 @@ const UpdateProduct = () => {
                 </Select>
               </div>
               <div className="mb-3">
-                <button className="btn btn-primary" onClick={handleCreate}>
+                <button className="btn btn-primary" onClick={handleUpdate}>
                   Update Product
+                </button>
+                <button
+                  className="btn btn-danger m-lg-3"
+                  onClick={handleDelete}
+                >
+                  Delete Product
                 </button>
               </div>
             </div>

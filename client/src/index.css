@@ -28,16 +28,17 @@ font-family: 'Roboto', sans-serif; */
 .active {
   border-bottom: 2px solid black;
 }
-
+/*=======================Footer=============================*/
 .footer {
   color: white;
   padding: 25px;
-  background: black;
-  background: linear-gradient(
-    0deg,
-    rgba(67, 67, 67, 1) 0%,
-    rgba(255, 255, 255, 1) 110%
-  );
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #434343,
+    #000000
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #434343, #000000);
 }
 
 .footer a {

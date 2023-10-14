@@ -33,7 +33,7 @@ const CreateCategory = () => {
       toast.error("Something Went Wrong In Input Form");
     }
   };
-
+  /// get All Category
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
@@ -83,7 +83,6 @@ const CreateCategory = () => {
       );
       if (data.success) {
         toast.success(`${name} is Deleted`);
-
         getAllCategory();
       } else {
         toast.error(data.message);
