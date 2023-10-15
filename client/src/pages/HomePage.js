@@ -68,6 +68,10 @@ const HomePage = () => {
               </Checkbox>
             ))}
           </div>
+          <h4 className="text-center">Filters By Price</h4>
+          <div className="d-flex flex-column">
+            
+          </div>
         </div>
         <div className="col-md-9">
           <h1 className="text-center"> All Products</h1>
