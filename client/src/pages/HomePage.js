@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Checkbox, Radio } from "antd";
 import { prices } from "../components/Prices.js";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, SetLoading] = useState(false);
 
+  const navigate = useNavigate();
   /// get All Category
   const getAllCategory = async () => {
     try {
@@ -157,7 +159,10 @@ const HomePage = () => {
                   <h5 className="card-title">{p.name}</h5>
                   <p className="card-text">{p.description.substring(0, 30)}</p>
                   <p className="card-text">$ {p.price}</p>
-                  <button className="btn btn-primary m-lg-1">
+                  <button
+                    className="btn btn-primary m-lg-1"
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                  >
                     More Detail
                   </button>
                   <button className="btn btn-secondary">🛒 Add To Cart</button>
