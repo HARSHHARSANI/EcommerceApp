@@ -32,6 +32,8 @@ const ProductDetails = () => {
             src={`/api/v1/products/product-photo/${product._id}`}
             className="card-img-top"
             alt={product.name}
+            height={300}
+            width={350}
           />
         </div>
         <div className="col-md-6">
@@ -39,7 +41,7 @@ const ProductDetails = () => {
           <h5>Name : {product.name}</h5>
           <h5>description : {product.description}</h5>
           <h5>price : {product.price}</h5>
-          {/* <h5>category : {product.category.name}</h5> */}
+          <h5>category : {product?.category?.name}</h5>
           <button className="btn btn-secondary">🛒 Add To Cart</button>
         </div>
       </div>
