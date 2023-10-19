@@ -99,8 +99,8 @@ export const getSingleProductController = async (req, res) => {
 export const productPhotoController = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.pid).select("photo");
-    if (product?.photo.data) {
-      res.set("Content-Type", product.photo.contentType);
+    if (product.photo.data) {
+      res.set("Content-type", product.photo.contentType);
       return res.status(200).send(product.photo.data);
     }
   } catch (error) {
@@ -258,6 +258,31 @@ export const searchProductController = async (req, res) => {
       success: false,
       error,
       message: "Error in search Product Api",
+    });
+  }
+};
+
+export const relatedProductController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error While Getting Similar Product",
+      error,
     });
   }
 };

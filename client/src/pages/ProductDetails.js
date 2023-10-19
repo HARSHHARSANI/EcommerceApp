@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 const ProductDetails = () => {
   const params = useParams();
   const [product, setProduct] = useState({});
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   ///initial product details
   useEffect(() => {
@@ -19,10 +20,24 @@ const ProductDetails = () => {
         `/api/v1/products/get-Products/${params.slug}`
       );
       setProduct(data?.products);
+      getSimilarProducts(data?.products?._id, data?.products?.category._id);
     } catch (error) {
       console.log(error);
     }
   };
+
+  /// get similar Products
+  const getSimilarProducts = async (pid, cid) => {
+    try {
+      const { data } = await axios.get(
+        `/api/v1/products/related-Product/${pid}/${cid}`
+      );
+      setRelatedProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout>
       <div className="row container mt-2">
@@ -45,7 +60,30 @@ const ProductDetails = () => {
           <button className="btn btn-secondary">🛒 Add To Cart</button>
         </div>
       </div>
-      <div className="row">Similar Products</div>
+      <hr />
+      <div className="row container">
+        <h6>Similar Products</h6>
+        {relatedProducts.length < 1 && (
+          <p className="text-center">No similar products Found</p>
+        )}
+        <div className="d-flex flex-wrap">
+          {relatedProducts.map((p) => (
+            <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
+              <img
+                src={`/api/v1/products/product-photo/${p._id}`}
+                className="card-img-top"
+                alt={p.name}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{p.name}</h5>
+                <p className="card-text">{p.description.substring(0, 30)}</p>
+                <p className="card-text">$ {p.price}</p>
+                <button className="btn btn-secondary">🛒 Add To Cart</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </Layout>
   );
 };
