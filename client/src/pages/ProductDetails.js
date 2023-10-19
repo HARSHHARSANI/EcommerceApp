@@ -79,6 +79,7 @@ const ProductDetails = () => {
                 <p className="card-text">{p.description.substring(0, 30)}</p>
                 <p className="card-text">$ {p.price}</p>
                 <button className="btn btn-secondary">🛒 Add To Cart</button>
+                <button className="btn btn-primary">More Details</button>
               </div>
             </div>
           ))}
