@@ -5,6 +5,7 @@ import axios from "axios";
 import { Checkbox, Radio } from "antd";
 import { prices } from "../components/Prices.js";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cart";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ const HomePage = () => {
   const [total, settotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, SetLoading] = useState(false);
+  const [cart, setCart] = useCart();
 
   const navigate = useNavigate();
   /// get All Category
@@ -163,7 +165,19 @@ const HomePage = () => {
                   >
                     More Detail
                   </button>
-                  <button className="btn btn-secondary">🛒 Add To Cart</button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success("Item added To Cart");
+                    }}
+                  >
+                    🛒 Add To Cart
+                  </button>
                 </div>
               </div>
             ))}
